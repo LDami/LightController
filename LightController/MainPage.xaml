@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:LightController"
+             x:Class="LightController.MainPage">
+
+    
+    <ScrollView>
+        <HorizontalStackLayout
+            Padding="30,0"
+            Spacing="25"
+        >
+            <VerticalStackLayout WidthRequest="150" BackgroundColor="Gray">
+                <HorizontalStackLayout Padding="5" HorizontalOptions="EndAndExpand">
+                    <Label Text="{Binding Sequences.Count}"/>
+                    <Button
+                        x:Name="BtnCreateSequence"
+                        Text="+" 
+                        SemanticProperties.Hint="Creates a new sequence"
+                        Clicked="BtnCreateSequence_Clicked"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Padding="0,0"
+                        MinimumHeightRequest="4"
+                        MinimumWidthRequest="16"
+                    />
+                </HorizontalStackLayout>
+                <ListView ItemsSource="{Binding Sequences}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:SequenceViewModel">
+                            <ViewCell>
+                                <Label Text="{Binding Name}" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" />
+
+                <Label
+                Text="Hello, World!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+                
+                <Label
+                Text="{Binding Sequences.Count, StringFormat=There are {0} sequences}"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+                <Label
+                Text="Welcome to &#10;.NET Multi-platform App UI"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+    </ScrollView>
+
+</ContentPage>

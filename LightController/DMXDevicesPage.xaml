@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:LightController"
+             xmlns:converters="clr-namespace:LightController.Converters"
+             xmlns:models="clr-namespace:LightController.Models"
+             x:Class="LightController.DMXDevicesPage"
+             Title="DMXDevicesPage">
+    <ContentPage.BindingContext>
+        <local:DMXDevicePageVM />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <converters:IsSelectedToColorConverter x:Key="IsSelectedToBorderColorConverter" />
+    </ContentPage.Resources>
+    <VerticalStackLayout>
+        <Label 
+            Text="Devices"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <VerticalStackLayout BackgroundColor="Gray" HorizontalOptions="FillAndExpand" Padding="15">
+            <HorizontalStackLayout Padding="5" HorizontalOptions="FillAndExpand">
+                <HorizontalStackLayout HorizontalOptions="StartAndExpand">
+                    <Button
+                        x:Name="BtnCreateDevice"
+                        Text="Add device"
+                        SemanticProperties.Hint="Creates a new device"
+                        Command="{Binding AddDeviceCommand}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Margin="4, 0"
+                        Padding="4"
+                        CornerRadius="4"
+                        MinimumHeightRequest="8"
+                        MinimumWidthRequest="50"
+                        />
+                    <Button
+                        x:Name="BtnSelectAllDevices"
+                        Text="Select all"
+                        SemanticProperties.Hint="Select all devices"
+                        Command="{Binding SelectAllCommand}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Margin="4, 0"
+                        Padding="4"
+                        CornerRadius="4"
+                        MinimumHeightRequest="8"
+                        MinimumWidthRequest="50"
+                        />
+                    <Button
+                        x:Name="BtnDeselectAllDevices"
+                        Text="Deselect all"
+                        SemanticProperties.Hint="Deselect all devices"
+                        Command="{Binding DeselectAllCommand}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Margin="4, 0"
+                        Padding="4"
+                        CornerRadius="4"
+                        MinimumHeightRequest="8"
+                        MinimumWidthRequest="50"
+                        />
+                </HorizontalStackLayout>
+                <Label Text="{Binding Devices.Count, StringFormat='Device count: {0}'}"/>
+            </HorizontalStackLayout>
+            <FlexLayout BindableLayout.ItemsSource="{Binding Devices}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:DMXDevice">
+                        <Border Padding="1.5" BackgroundColor="{Binding IsSelected, Converter={StaticResource IsSelectedToBorderColorConverter}}">
+                            <Frame
+                                WidthRequest="100"
+                                HeightRequest="100"
+                                Margin="3"
+                                Padding="0"
+                                BorderColor="Black"
+                            >
+                                <StackLayout Padding="0">
+                                    <StackLayout Padding="5">
+                                        <Label Text="{Binding Name}" />
+                                        <Label Text="{Binding Address}" />
+                                    </StackLayout>
+                                    <Frame BackgroundColor="{Binding Color}" HeightRequest="30" VerticalOptions="End" HorizontalOptions="FillAndExpand" />
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleSelect}"/>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </Frame>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+            <HorizontalStackLayout Margin="2">
+                <Label Text="Color" />
+            </HorizontalStackLayout>
+            <StackLayout HorizontalOptions="Start">
+                <HorizontalStackLayout Spacing="5">
+                    <Slider Minimum="0" Maximum="255" MinimumTrackColor="Red" WidthRequest="400" x:Name="SliderColorRed" ValueChanged="SliderColorRed_ValueChanged"/>
+                    <Label Text="{Binding Source={x:Reference SliderColorRed}, Path=Value, StringFormat='{0:F0}'}" WidthRequest="30"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="5">
+                    <Slider Minimum="0" Maximum="255" MinimumTrackColor="Green" WidthRequest="400" x:Name="SliderColorGreen" ValueChanged="SliderColorGreen_ValueChanged"/>
+                    <Label Text="{Binding Source={x:Reference SliderColorGreen}, Path=Value, StringFormat='{0:F0}'}" WidthRequest="30"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="5">
+                    <Slider Minimum="0" Maximum="255" MinimumTrackColor="Blue" WidthRequest="400" x:Name="SliderColorBlue" ValueChanged="SliderColorBlue_ValueChanged"/>
+                    <Label Text="{Binding Source={x:Reference SliderColorBlue}, Path=Value, StringFormat='{0:F0}'}" WidthRequest="30"/>
+                </HorizontalStackLayout>
+            </StackLayout>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
