@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:LightController"
              xmlns:converters="clr-namespace:LightController.Converters"
              xmlns:models="clr-namespace:LightController.Models"
+             xmlns:viewmodels="clr-namespace:LightController.ViewModels"
              x:Class="LightController.DMXDevicesPage"
              Title="DMXDevicesPage">
     <ContentPage.BindingContext>
@@ -106,5 +107,11 @@
                 </HorizontalStackLayout>
             </StackLayout>
         </VerticalStackLayout>
+        <HorizontalStackLayout x:DataType="viewmodels:SequencesVM">
+            <HorizontalStackLayout.BindingContext>
+                <x:Static Member="viewmodels:SequencesVMService.MySequencesVM" />
+            </HorizontalStackLayout.BindingContext>
+            <Label Text="{Binding SelectedSequence.Name, StringFormat='Selected seq:{0}'}" />
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

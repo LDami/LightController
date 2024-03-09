@@ -81,7 +81,6 @@ public class DMXDevicePageVM : INotifyPropertyChanged
             canExecute: () =>
             {
                 return true;
-                return devices.Where(x => x.IsSelected).Count() < devices.Count;
             }
         );
         DeselectAllCommand = new Command(
@@ -95,7 +94,6 @@ public class DMXDevicePageVM : INotifyPropertyChanged
             canExecute: () =>
             {
                 return true;
-                return devices.Where(x => x.IsSelected).Count() > 0;
             }
         );
     }
@@ -124,7 +122,6 @@ public class DMXDevicePageVM : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DMXDevice)));
         };
         devices.Add(device);
-        //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Devices)));
     }
 
     public void SetColor(int colorR, int colorG, int colorB)

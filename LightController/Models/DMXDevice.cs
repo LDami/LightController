@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace LightController.Models
                 execute: () =>
                 {
                     IsSelected = !_selected;
-                    Console.WriteLine($"Device {Name} toggled selected, new value: {IsSelected}");
+                    Debug.WriteLine($"Device {Name} toggled selected, new value: {IsSelected}");
                 },
                 canExecute: () =>
                 {

@@ -2,62 +2,95 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:LightController"
-             x:Class="LightController.MainPage">
-
-    
+             xmlns:converters="clr-namespace:LightController.Converters"
+             xmlns:models="clr-namespace:LightController.Models"
+             xmlns:viewmodels="clr-namespace:LightController.ViewModels"
+             x:Class="LightController.MainPage"
+             x:DataType="viewmodels:SequencesVM">
+    <ContentPage.BindingContext>
+        <x:Static Member="viewmodels:SequencesVMService.MySequencesVM" />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <converters:IsSelectedToColorConverter x:Key="IsSelectedToBorderColorConverter" />
+    </ContentPage.Resources>
     <ScrollView>
         <HorizontalStackLayout
             Padding="30,0"
             Spacing="25"
         >
+            <VerticalStackLayout WidthRequest="50" BackgroundColor="red">
+                <Button
+                    x:Name="BtnWindowDevices"
+                    Text="Devices" 
+                    SemanticProperties.Hint="Open the device window"
+                    Clicked="BtnWindowDevices_Clicked"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Margin="4, 0"
+                    Padding="4"
+                    CornerRadius="4"
+                    MinimumHeightRequest="8"
+                    MinimumWidthRequest="8"
+                />
+            </VerticalStackLayout>
             <VerticalStackLayout WidthRequest="150" BackgroundColor="Gray">
                 <HorizontalStackLayout Padding="5" HorizontalOptions="EndAndExpand">
-                    <Label Text="{Binding Sequences.Count}"/>
                     <Button
                         x:Name="BtnCreateSequence"
-                        Text="+" 
+                        Text="Add sequence" 
                         SemanticProperties.Hint="Creates a new sequence"
                         Clicked="BtnCreateSequence_Clicked"
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
-                        Padding="0,0"
-                        MinimumHeightRequest="4"
-                        MinimumWidthRequest="16"
+                        Margin="4, 0"
+                        Padding="4"
+                        CornerRadius="4"
+                        MinimumHeightRequest="8"
+                        MinimumWidthRequest="50"
                     />
+                    <Label Text="{Binding Sequences.Count}"/>
                 </HorizontalStackLayout>
-                <ListView ItemsSource="{Binding Sequences}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="local:SequenceViewModel">
-                            <ViewCell>
-                                <Label Text="{Binding Name}" />
-                            </ViewCell>
+                <FlexLayout BindableLayout.ItemsSource="{Binding Sequences}" Direction="Column">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:Sequence">
+                            <Border Padding="1.5" BackgroundColor="{Binding IsSelected, Converter={StaticResource IsSelectedToBorderColorConverter}}">
+                                <HorizontalStackLayout HorizontalOptions="StartAndExpand" WidthRequest="100">
+                                    <Label Text="{Binding Name}" BackgroundColor="Black"/>
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SequencesVM}}, Path=SelectSequence}" CommandParameter="{Binding}"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                </HorizontalStackLayout>
+                            </Border>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </VerticalStackLayout>
             <VerticalStackLayout>
-                <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
-
-                <Label
-                Text="Hello, World!"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
-                
-                <Label
-                Text="{Binding Sequences.Count, StringFormat=There are {0} sequences}"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
-
-                <Label
-                Text="Welcome to &#10;.NET Multi-platform App UI"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-
+                <Label Text="{Binding SelectedSequence.Name}" Style="{StaticResource Headline}" BackgroundColor="Black"/>
+                <Button
+                        x:Name="BtnCreateCue"
+                        Text="Add cue" 
+                        SemanticProperties.Hint="Creates a new cue in the selected sequence"
+                        Command="{Binding SelectedSequence.AddNewCue}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Margin="4, 0"
+                        Padding="4"
+                        CornerRadius="4"
+                        MinimumHeightRequest="8"
+                        MinimumWidthRequest="50"
+                    />
+                <FlexLayout BindableLayout.ItemsSource="{Binding SelectedSequence.Cues}" Direction="Column">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:Cue">
+                            <Border Padding="1.5">
+                                <HorizontalStackLayout HorizontalOptions="StartAndExpand" WidthRequest="100">
+                                    <Label Text="{Binding Parameters.Count}" BackgroundColor="Black"/>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </VerticalStackLayout>
         </HorizontalStackLayout>
     </ScrollView>
