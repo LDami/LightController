@@ -1,4 +1,5 @@
 using LightController.Models;
+using LightController.ViewModels;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -29,24 +30,37 @@ public partial class DMXDevicesPage : ContentPage
     private void DMXDevicePageVM_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         Debug.WriteLine("DMXDeviceVM property changed: " + e.PropertyName);
+        UpdateParameterLabels();
     }
 
     private void SliderColorRed_ValueChanged(object sender, ValueChangedEventArgs e)
     {
         DMXDeviceVM.SetColor((int)SliderColorRed.Value, (int)SliderColorGreen.Value, (int)SliderColorBlue.Value);
+        UpdateParameterLabels();
     }
 
     private void SliderColorGreen_ValueChanged(object sender, ValueChangedEventArgs e)
     {
         DMXDeviceVM.SetColor((int)SliderColorRed.Value, (int)SliderColorGreen.Value, (int)SliderColorBlue.Value);
+        UpdateParameterLabels();
     }
 
     private void SliderColorBlue_ValueChanged(object sender, ValueChangedEventArgs e)
     {
         DMXDeviceVM.SetColor((int)SliderColorRed.Value, (int)SliderColorGreen.Value, (int)SliderColorBlue.Value);
+        UpdateParameterLabels();
+    }
+    private void UpdateParameterLabels()
+    {
+        Color selectedColor = Colors.Beige;
+        if (SequencesVMService.MySequencesVM.TempCue?.Parameters.Where(p => p is ColorParameter).Any() == true)
+        {
+            LabelColorParameter.BackgroundColor = selectedColor;
+        }
+        else
+            LabelColorParameter.BackgroundColor = Colors.Black;
     }
 }
-
 
 public class DMXDevicePageVM : INotifyPropertyChanged
 {
@@ -126,6 +140,8 @@ public class DMXDevicePageVM : INotifyPropertyChanged
 
     public void SetColor(int colorR, int colorG, int colorB)
     {
+        if (SequencesVMService.MySequencesVM.TempCue is null)
+            throw new Exception("SequencesVMService.MySequencesVM.TempCue is null");
         foreach (var device in devices)
         {
             if (device.IsSelected)
@@ -133,6 +149,7 @@ public class DMXDevicePageVM : INotifyPropertyChanged
                 device.ColorR = colorR;
                 device.ColorG = colorG;
                 device.ColorB = colorB;
+                SequencesVMService.MySequencesVM.TempCue.AddColorParameter(device, new Color(colorR, colorG, colorB));
             }
         }
     }

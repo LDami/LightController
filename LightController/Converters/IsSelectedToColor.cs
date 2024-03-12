@@ -14,8 +14,6 @@ namespace LightController.Converters
                 {
                     Application.Current.Resources.TryGetValue("BorderColorSelected", out object selectedColor);
                     Application.Current.Resources.TryGetValue("BorderColorNotSelected", out object notSelectedColor);
-                    selectedColor = Colors.Beige;
-                    //notSelectedColor = Colors.Black;
                     return isSelected ? selectedColor : notSelectedColor;
                 }
                 catch(KeyNotFoundException)

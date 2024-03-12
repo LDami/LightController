@@ -7,7 +7,6 @@ using System.Windows.Input;
 
 namespace LightController
 {
-    // Sequence -> Cue
     public partial class MainPage : ContentPage
     {
         public MainPage()

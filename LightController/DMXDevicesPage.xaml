@@ -90,7 +90,7 @@
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
             <HorizontalStackLayout Margin="2">
-                <Label Text="Color" />
+                <Label Text="Color" x:Name="LabelColorParameter"/>
             </HorizontalStackLayout>
             <StackLayout HorizontalOptions="Start">
                 <HorizontalStackLayout Spacing="5">
@@ -111,7 +111,35 @@
             <HorizontalStackLayout.BindingContext>
                 <x:Static Member="viewmodels:SequencesVMService.MySequencesVM" />
             </HorizontalStackLayout.BindingContext>
-            <Label Text="{Binding SelectedSequence.Name, StringFormat='Selected seq:{0}'}" />
+            <Label Text="{Binding SelectedSequence.Name, StringFormat='Selected seq:{0}'}" WidthRequest="300" />
+            <Label Text="{Binding SelectedCue.Name, StringFormat='Selected cue:{0}'}" WidthRequest="300" />
+            <Label Text="{Binding TempCue.Parameters.Count, StringFormat='Parameters count:{0}'}" WidthRequest="300" />
+            <Button
+                x:Name="BtnSaveCue"
+                Text="Save cue"
+                SemanticProperties.Hint="Save the selected cue"
+                Command="{Binding OverwriteCue}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Margin="4, 0"
+                Padding="4"
+                CornerRadius="4"
+                MinimumHeightRequest="8"
+                MinimumWidthRequest="50"
+                />
+            <Button
+                x:Name="BtnClearCue"
+                Text="Clear cue"
+                SemanticProperties.Hint="Clear the selected cue"
+                Command="{Binding ClearCue}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Margin="4, 0"
+                Padding="4"
+                CornerRadius="4"
+                MinimumHeightRequest="8"
+                MinimumWidthRequest="50"
+                />
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

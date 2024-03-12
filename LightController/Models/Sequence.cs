@@ -10,8 +10,8 @@ namespace LightController.Models
     {
         private int _id = id;
         private string _name = name;
-        private ObservableCollection<Cue> _cues = [];
         private bool _selected;
+        private ObservableCollection<Cue> _cues = [];
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -20,7 +20,7 @@ namespace LightController.Models
                 return new Command(
                     execute: () =>
                     {
-                        AddCue(new Cue());
+                        AddCue(new Cue("New cue"));
                     },
                     canExecute: () =>
                     {
@@ -62,22 +62,6 @@ namespace LightController.Models
             }
         }
 
-        public ObservableCollection<Cue> Cues
-        {
-            get
-            {
-                return _cues;
-            }
-            set
-            {
-                if (_cues != value)
-                {
-                    _cues = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cues)));
-                }
-            }
-        }
-
         public bool IsSelected
         {
             get
@@ -90,6 +74,22 @@ namespace LightController.Models
                 {
                     _selected = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+                }
+            }
+        }
+
+        public ObservableCollection<Cue> Cues
+        {
+            get
+            {
+                return _cues;
+            }
+            set
+            {
+                if (_cues != value)
+                {
+                    _cues = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cues)));
                 }
             }
         }
