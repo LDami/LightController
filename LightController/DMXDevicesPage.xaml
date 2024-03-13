@@ -26,39 +26,18 @@
                         Text="Add device"
                         SemanticProperties.Hint="Creates a new device"
                         Command="{Binding AddDeviceCommand}"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Margin="4, 0"
-                        Padding="4"
-                        CornerRadius="4"
-                        MinimumHeightRequest="8"
-                        MinimumWidthRequest="50"
                         />
                     <Button
                         x:Name="BtnSelectAllDevices"
                         Text="Select all"
                         SemanticProperties.Hint="Select all devices"
                         Command="{Binding SelectAllCommand}"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Margin="4, 0"
-                        Padding="4"
-                        CornerRadius="4"
-                        MinimumHeightRequest="8"
-                        MinimumWidthRequest="50"
                         />
                     <Button
                         x:Name="BtnDeselectAllDevices"
                         Text="Deselect all"
                         SemanticProperties.Hint="Deselect all devices"
                         Command="{Binding DeselectAllCommand}"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Margin="4, 0"
-                        Padding="4"
-                        CornerRadius="4"
-                        MinimumHeightRequest="8"
-                        MinimumWidthRequest="50"
                         />
                 </HorizontalStackLayout>
                 <Label Text="{Binding Devices.Count, StringFormat='Device count: {0}'}"/>
@@ -119,26 +98,12 @@
                 Text="Save cue"
                 SemanticProperties.Hint="Save the selected cue"
                 Command="{Binding OverwriteCue}"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                Margin="4, 0"
-                Padding="4"
-                CornerRadius="4"
-                MinimumHeightRequest="8"
-                MinimumWidthRequest="50"
                 />
             <Button
                 x:Name="BtnClearCue"
                 Text="Clear cue"
                 SemanticProperties.Hint="Clear the selected cue"
                 Command="{Binding ClearCue}"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                Margin="4, 0"
-                Padding="4"
-                CornerRadius="4"
-                MinimumHeightRequest="8"
-                MinimumWidthRequest="50"
                 />
         </HorizontalStackLayout>
     </VerticalStackLayout>
