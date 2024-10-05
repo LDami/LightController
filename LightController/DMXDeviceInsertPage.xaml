@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:LightController"
+             xmlns:converters="clr-namespace:LightController.Converters"
+             xmlns:models="clr-namespace:LightController.Models"
+             xmlns:viewmodels="clr-namespace:LightController.ViewModels"
+             x:Class="LightController.DMXDeviceInsertPage"
+             Title="DMXDeviceInsertPage">
+    <ContentPage.BindingContext>
+        <x:Static Member="viewmodels:DMXDevicesVMService.MyDMXDevicesVM" />
+    </ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <FlexLayout BindableLayout.ItemsSource="{Binding DeviceTypes}" HeightRequest="500">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="models:DMXDeviceType">
+                    <Border Padding="1.5" WidthRequest="200" HeightRequest="100" BackgroundColor="{Binding Id, Converter={StaticResource IsSelectedToBorderColorConverter}, ConverterParameter=0}">
+                        <StackLayout Padding="0">
+                            <StackLayout Padding="5">
+                                <Label Text="{Binding Name}" FontSize="16"/>
+                                <Label Text="{Binding Description}" FontSize="12"/>
+                                <Label Text="{Binding ParametersMapping.Count, StringFormat='{0} channels'}" FontSize="12"/>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </StackLayout>
+                    </Border>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
+        <Label Text="Starting address: " />
+        <Entry Text="{Binding CreateStartingAddress}" />
+        <Button Clicked="Button_Clicked" Text="Create a new device type"/>
+    </VerticalStackLayout>
+</ContentPage>

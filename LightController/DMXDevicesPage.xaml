@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:LightController"
-             xmlns:converters="clr-namespace:LightController.Converters"
-             xmlns:models="clr-namespace:LightController.Models"
-             xmlns:viewmodels="clr-namespace:LightController.ViewModels"
-             x:Class="LightController.DMXDevicesPage"
-             Title="DMXDevicesPage">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:LightController"
+    xmlns:converters="clr-namespace:LightController.Converters"
+    xmlns:models="clr-namespace:LightController.Models"
+    xmlns:viewmodels="clr-namespace:LightController.ViewModels"
+    x:Class="LightController.DMXDevicesPage"
+    Title="DMXDevicesPage">
     <ContentPage.BindingContext>
-        <local:DMXDevicePageVM />
+        <x:Static Member="viewmodels:DMXDevicesVMService.MyDMXDevicesVM" />
     </ContentPage.BindingContext>
     <ContentPage.Resources>
         <converters:IsSelectedToColorConverter x:Key="IsSelectedToBorderColorConverter" />
@@ -25,19 +25,19 @@
                         x:Name="BtnCreateDevice"
                         Text="Add device"
                         SemanticProperties.Hint="Creates a new device"
-                        Command="{Binding AddDeviceCommand}"
+                        Clicked="BtnCreateDevice_Clicked"
                         />
                     <Button
                         x:Name="BtnSelectAllDevices"
                         Text="Select all"
                         SemanticProperties.Hint="Select all devices"
-                        Command="{Binding SelectAllCommand}"
+                        Command="{Binding SelectAll}"
                         />
                     <Button
                         x:Name="BtnDeselectAllDevices"
                         Text="Deselect all"
                         SemanticProperties.Hint="Deselect all devices"
-                        Command="{Binding DeselectAllCommand}"
+                        Command="{Binding DeselectAll}"
                         />
                 </HorizontalStackLayout>
                 <Label Text="{Binding Devices.Count, StringFormat='Device count: {0}'}"/>

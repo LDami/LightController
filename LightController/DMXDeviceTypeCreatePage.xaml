@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:LightController"
+             xmlns:converters="clr-namespace:LightController.Converters"
+             xmlns:models="clr-namespace:LightController.Models"
+             xmlns:viewmodels="clr-namespace:LightController.ViewModels"
+             x:Class="LightController.DMXDeviceTypeCreatePage"
+             x:DataType="models:DMXDeviceType"
+             Title="DMXDeviceTypeCreatePage">
+    <ContentPage.BindingContext>
+        <models:DMXDeviceType />
+    </ContentPage.BindingContext>
+    <VerticalStackLayout Padding="5">
+        <Label Text="Create a new device type" Padding="8, 6, 8, 6"/>
+        <Entry Text="{Binding Name, Mode=TwoWay}" x:Name="InputName" TextChanged="InputName_TextChanged" ReturnType="Next" ClearButtonVisibility="WhileEditing" Placeholder="Device name" Margin="0, 0, 0, 5" />
+        <Entry Text="{Binding Description, Mode=TwoWay}" ReturnType="Next" ClearButtonVisibility="WhileEditing" Placeholder="Description" Margin="0, 0, 0, 5" />
+
+
+        <HorizontalStackLayout Margin="0, 20, 0, 5">
+            <Label Text="Color ?" Padding="8, 6, 8, 6" />
+            <Switch IsToggled="{Binding ColorEnabled}" x:Name="SwitchColorEnabled" Toggled="SwitchColorEnabled_Toggled" />
+            <Label Text="Position ?" Padding="8, 6, 8, 6" />
+            <Switch IsToggled="{Binding PositionEnabled}" x:Name="SwitchPositionEnabled" Toggled="SwitchPositionEnabled_Toggled" />
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Margin="0, 20, 0, 5">
+            <Label Text="Channels:" Padding="8, 6, 8, 6"/>
+            <Button Text="Add" x:Name="BtnAddChannel" Clicked="BtnAddChannel_Clicked" />
+        </HorizontalStackLayout>
+        <ScrollView>
+            <StackLayout BindableLayout.ItemsSource="{Binding ParametersMapping}" HorizontalOptions="Start">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:ParameterData">
+                        <Border Padding="1.5" WidthRequest="500" Margin="2">
+                            <StackLayout Padding="0">
+                                <StackLayout Padding="10">
+                                    <HorizontalStackLayout Grid.Column="1" Grid.Row="0" Spacing="5">
+                                        <Entry Text="{Binding Address, Mode=TwoWay}" MinimumHeightRequest="30" />
+                                        <Stepper Value="{Binding Address, Mode=TwoWay}" Minimum="1" Maximum="512" Increment="1" HeightRequest="30"/>
+                                    </HorizontalStackLayout>
+                                    <!--<Picker
+                                        ItemsSource="{Binding Source={x:Static models:ParameterData.AllParameters}}"
+                                        SelectedItem="{Binding Parameter, Mode=TwoWay}"
+                                        SelectedIndex="{Binding Parameter, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type models:ChannelParameter}}"
+                                        />-->
+                                    <Picker
+                                        ItemsSource="{Binding Source={x:Static models:ParameterData.AllParameters}}"
+                                        ItemDisplayBinding="{Binding displayString}"
+                                        SelectedItem="{Binding PickerValue}"
+                                        />
+                                </StackLayout>
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </ScrollView>
+
+        <Button Clicked="Button_Clicked" Text="Create" />
+    </VerticalStackLayout>
+</ContentPage>

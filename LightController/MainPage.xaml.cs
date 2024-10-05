@@ -31,7 +31,7 @@ namespace LightController
         {
             // interesting way to switch page while staying on same window
             //await Navigation.PushAsync(new DMXDevicesPage());
-            Application.Current?.OpenWindow(new Window { Page = new DMXDevicesPage() });
+            Application.Current?.OpenWindow(new Window { Page = new DMXDevicesShell() });
         }
     }
 }

@@ -10,21 +10,15 @@ namespace LightController;
 
 public partial class DMXDevicesPage : ContentPage
 {
-    public DMXDevicePageVM DMXDeviceVM { get; set; }
+    public DMXDevicePageVM DMXDeviceVM { get; set; } // Obsolete ?
     public DMXDevicesPage()
 	{
 		InitializeComponent();
-        if(BindingContext is DMXDevicePageVM)
-            DMXDeviceVM = (DMXDevicePageVM)this.BindingContext;
-        else
-        {
-            throw new Exception("Could not start DMXDevicesPage: the binding context is null, please set a ContentPage.BindingContext");
-        }
-        DMXDeviceVM.PropertyChanged += DMXDevicePageVM_PropertyChanged;
-        DMXDeviceVM.AddDevice(new DMXDevice("Spot G1", 0));
-        DMXDeviceVM.AddDevice(new DMXDevice("Spot G2", 8));
-        DMXDeviceVM.AddDevice(new DMXDevice("Spot G3", 16));
-        DMXDeviceVM.AddDevice(new DMXDevice("Spot G4", 32));
+        DMXDevicesVMService.MyDMXDevicesVM.PropertyChanged += DMXDevicePageVM_PropertyChanged;
+        DMXDevicesVMService.MyDMXDevicesVM.Devices.Add(new DMXDevice("Spot G1", 0));
+        DMXDevicesVMService.MyDMXDevicesVM.Devices.Add(new DMXDevice("Spot G2", 8));
+        DMXDevicesVMService.MyDMXDevicesVM.Devices.Add(new DMXDevice("Spot G3", 16));
+        DMXDevicesVMService.MyDMXDevicesVM.Devices.Add(new DMXDevice("Spot G4", 32));
     }
 
     private void DMXDevicePageVM_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -35,20 +29,32 @@ public partial class DMXDevicesPage : ContentPage
 
     private void SliderColorRed_ValueChanged(object sender, ValueChangedEventArgs e)
     {
-        DMXDeviceVM.SetColor((int)SliderColorRed.Value, (int)SliderColorGreen.Value, (int)SliderColorBlue.Value);
+        UpdateDevicesColor();
         UpdateParameterLabels();
     }
 
     private void SliderColorGreen_ValueChanged(object sender, ValueChangedEventArgs e)
     {
-        DMXDeviceVM.SetColor((int)SliderColorRed.Value, (int)SliderColorGreen.Value, (int)SliderColorBlue.Value);
+        UpdateDevicesColor();
         UpdateParameterLabels();
     }
 
     private void SliderColorBlue_ValueChanged(object sender, ValueChangedEventArgs e)
     {
-        DMXDeviceVM.SetColor((int)SliderColorRed.Value, (int)SliderColorGreen.Value, (int)SliderColorBlue.Value);
+        UpdateDevicesColor();
         UpdateParameterLabels();
+    }
+    private void UpdateDevicesColor()
+    {
+        foreach (DMXDevice device in DMXDevicesVMService.MyDMXDevicesVM.Devices)
+        {
+            if (device.IsSelected)
+            {
+                device.ColorR = (int)SliderColorRed.Value;
+                device.ColorG = (int)SliderColorGreen.Value;
+                device.ColorB = (int)SliderColorBlue.Value;
+            }
+        }
     }
     private void UpdateParameterLabels()
     {
@@ -59,6 +65,11 @@ public partial class DMXDevicesPage : ContentPage
         }
         else
             LabelColorParameter.BackgroundColor = Colors.Black;
+    }
+
+    private async void BtnCreateDevice_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new DMXDeviceInsertPage());
     }
 }
 

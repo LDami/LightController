@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell
+    x:Class="LightController.DMXDeviceInsertShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:LightController"
+    Shell.FlyoutBehavior="Disabled"
+    Title="DMXDeviceInsertShell">
+
+    <ShellContent
+        Title="DMXDeviceInsertShell"
+        ContentTemplate="{DataTemplate local:DMXDeviceInsertShell}"
+        Route="DMXDeviceInsertShell" />
+
+</Shell>
